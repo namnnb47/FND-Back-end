@@ -22,12 +22,6 @@ export interface IHeaderProps {
 const Header = (props: IHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const renderDevRibbon = () =>
-    props.isInProduction === false ? (
-      <div className="ribbon dev">
-        <a href="">Development</a>
-      </div>
-    ) : null;
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -35,7 +29,6 @@ const Header = (props: IHeaderProps) => {
 
   return (
     <div id="app-header">
-      {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
       <Navbar light expand="sm" fixed="top" className="bg-light">
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
