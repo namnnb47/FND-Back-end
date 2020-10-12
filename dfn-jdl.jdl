@@ -5,10 +5,6 @@ entity Article {
     dateCreated String,
     articleStatus String,
     label String,
-    userID String
-}
-relationship ManyToOne {
-	Article{userID} to User{id}
 }
 
 // Set pagination options
