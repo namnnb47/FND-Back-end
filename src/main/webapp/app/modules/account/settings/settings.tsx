@@ -7,6 +7,8 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import { saveAccountSettings, reset } from './settings.reducer';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IUserSettingsProps extends StateProps, DispatchProps {}
 
@@ -34,6 +36,20 @@ export const SettingsPage = (props: IUserSettingsProps) => {
         <Col md="8">
           <h2 id="settings-title">User settings for {props.account.login}</h2>
           <AvForm id="settings-form" onValidSubmit={handleValidSubmit}>
+            {/* Email */}
+            <AvField
+              name="email"
+              label="Email"
+              placeholder={'Your email'}
+              type="email"
+              disabled
+              validate={{
+                required: { value: true, errorMessage: 'Your email is required.' },
+                minLength: { value: 5, errorMessage: 'Your email is required to be at least 5 characters.' },
+                maxLength: { value: 254, errorMessage: 'Your email cannot be longer than 50 characters.' },
+              }}
+              value={props.account.email}
+            />
             {/* First name */}
             <AvField
               className="form-control"
@@ -62,19 +78,10 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               }}
               value={props.account.lastName}
             />
-            {/* Email */}
-            <AvField
-              name="email"
-              label="Email"
-              placeholder={'Your email'}
-              type="email"
-              validate={{
-                required: { value: true, errorMessage: 'Your email is required.' },
-                minLength: { value: 5, errorMessage: 'Your email is required to be at least 5 characters.' },
-                maxLength: { value: 254, errorMessage: 'Your email cannot be longer than 50 characters.' },
-              }}
-              value={props.account.email}
-            />
+            <Button tag={Link} to="/" replace color="info">
+              <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
+            </Button>
+            &nbsp;
             <Button color="primary" type="submit">
               Save
             </Button>

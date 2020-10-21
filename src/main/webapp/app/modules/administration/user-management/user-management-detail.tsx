@@ -49,7 +49,7 @@ export const UserManagementDetail = (props: IUserManagementDetailProps) => {
               <TextFormat value={user.lastModifiedDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid />
             ) : null}
           </dd>
-          <dt>Profiles</dt>
+          {/* <dt>Profiles</dt>
           <dd>
             <ul className="list-unstyled">
               {user.authorities
@@ -60,7 +60,7 @@ export const UserManagementDetail = (props: IUserManagementDetailProps) => {
                   ))
                 : null}
             </ul>
-          </dd>
+          </dd> */}
         </dl>
       </Row>
       <Button tag={Link} to="/admin/user-management" replace color="info">

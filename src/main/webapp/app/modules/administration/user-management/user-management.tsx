@@ -65,9 +65,9 @@ export const UserManagement = (props: IUserManagementProps) => {
     <div>
       <h2 id="user-management-page-heading">
         Users
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity">
+        {/* <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity">
           <FontAwesomeIcon icon="plus" /> Create a new user
-        </Link>
+        </Link> */}
       </h2>
       <Table responsive striped>
         <thead>
@@ -85,7 +85,7 @@ export const UserManagement = (props: IUserManagementProps) => {
               <FontAwesomeIcon icon="sort" />
             </th>
             <th />
-            <th>Profiles</th>
+            {/* <th>Profiles</th> */}
             <th className="hand" onClick={sort('createdDate')}>
               Created Date
               <FontAwesomeIcon icon="sort" />
@@ -122,7 +122,7 @@ export const UserManagement = (props: IUserManagementProps) => {
                   </Button>
                 )}
               </td>
-              <td>
+              {/* <td>
                 {user.authorities
                   ? user.authorities.map((authority, j) => (
                       <div key={`user-auth-${i}-${j}`}>
@@ -130,7 +130,7 @@ export const UserManagement = (props: IUserManagementProps) => {
                       </div>
                     ))
                   : null}
-              </td>
+              </td> */}
               <td>
                 {user.createdDate ? <TextFormat value={user.createdDate} type="date" format={APP_DATE_FORMAT} blankOnInvalid /> : null}
               </td>

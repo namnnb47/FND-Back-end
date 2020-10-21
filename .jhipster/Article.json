@@ -2,27 +2,31 @@
   "name": "Article",
   "fields": [
     {
-      "fieldName": "title",
+      "fieldName": "newsContent",
       "fieldType": "String"
     },
     {
-      "fieldName": "text",
+      "fieldName": "dateDetected",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "emailAddress",
       "fieldType": "String"
     },
     {
-      "fieldName": "dateCreated",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "articleStatus",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "label",
-      "fieldType": "String"
+      "fieldName": "isDeleted",
+      "fieldType": "Boolean"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "label",
+      "otherEntityRelationshipName": "id",
+      "relationshipName": "labelId",
+      "otherEntityField": "id"
+    }
+  ],
   "changelogDate": "20201012142333",
   "entityTableName": "article",
   "dto": "mapstruct",

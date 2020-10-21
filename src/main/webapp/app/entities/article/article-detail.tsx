@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { ICrudGetAction } from 'react-jhipster';
+import { ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './article.reducer';
 import { IArticle } from 'app/shared/model/article.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { getEntities, LabelState } from '../label/label.reducer';
 
 export interface IArticleDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const ArticleDetail = (props: IArticleDetailProps) => {
+  const label = useSelector((state : LabelState) => state.entities);
+
   useEffect(() => {
     props.getEntity(props.match.params.id);
   }, []);
@@ -21,30 +24,33 @@ export const ArticleDetail = (props: IArticleDetailProps) => {
   return (
     <Row>
       <Col md="8">
+        {console.log(label)}
         <h2>
           Article [<b>{articleEntity.id}</b>]
         </h2>
         <dl className="jh-entity-details">
           <dt>
-            <span id="title">Title</span>
+            <span id="newsContent">News Content</span>
           </dt>
-          <dd>{articleEntity.title}</dd>
+          <dd>{articleEntity.newsContent}</dd>
           <dt>
-            <span id="text">Text</span>
+            <span id="dateDetected">Date Detected</span>
           </dt>
-          <dd>{articleEntity.text}</dd>
+          <dd>
+            {articleEntity.dateDetected ? (
+              <TextFormat value={articleEntity.dateDetected} type="date" format={APP_LOCAL_DATE_FORMAT} />
+            ) : null}
+          </dd>
           <dt>
-            <span id="dateCreated">Date Created</span>
+            <span id="emailAddress">Email Address</span>
           </dt>
-          <dd>{articleEntity.dateCreated}</dd>
+          <dd>{articleEntity.emailAddress}</dd>
           <dt>
-            <span id="articleStatus">Article Status</span>
+            <span id="isDeleted">Is Deleted</span>
           </dt>
-          <dd>{articleEntity.articleStatus}</dd>
-          <dt>
-            <span id="label">Label</span>
-          </dt>
-          <dd>{articleEntity.label}</dd>
+          <dd>{articleEntity.isDeleted ? 'true' : 'false'}</dd>
+          <dt>Label</dt>
+          <dd>{articleEntity.labelIdId ? articleEntity.labelIdId : ''}</dd>
         </dl>
         <Button tag={Link} to="/article" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

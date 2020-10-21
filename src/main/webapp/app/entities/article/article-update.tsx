@@ -7,6 +7,8 @@ import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipste
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
+import { ILabel } from 'app/shared/model/label.model';
+import { getEntities as getLabels } from 'app/entities/label/label.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './article.reducer';
 import { IArticle } from 'app/shared/model/article.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -15,9 +17,10 @@ import { mapIdList } from 'app/shared/util/entity-utils';
 export interface IArticleUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const ArticleUpdate = (props: IArticleUpdateProps) => {
+  const [labelIdId, setLabelIdId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { articleEntity, loading, updating } = props;
+  const { articleEntity, labels, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/article' + props.location.search);
@@ -29,6 +32,8 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
     } else {
       props.getEntity(props.match.params.id);
     }
+
+    props.getLabels();
   }, []);
 
   useEffect(() => {
@@ -72,34 +77,41 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
                 </AvGroup>
               ) : null}
               <AvGroup>
-                <Label id="titleLabel" for="article-title">
-                  Title
+                <Label id="newsContentLabel" for="article-newsContent">
+                  News Content
                 </Label>
-                <AvField id="article-title" type="text" name="title" />
+                <AvField id="article-newsContent" type="text" name="newsContent" />
               </AvGroup>
               <AvGroup>
-                <Label id="textLabel" for="article-text">
-                  Text
+                <Label id="dateDetectedLabel" for="article-dateDetected">
+                  Date Detected
                 </Label>
-                <AvField id="article-text" type="text" name="text" />
+                <AvField id="article-dateDetected" type="date" className="form-control" name="dateDetected" />
               </AvGroup>
               <AvGroup>
-                <Label id="dateCreatedLabel" for="article-dateCreated">
-                  Date Created
+                <Label id="emailAddressLabel" for="article-emailAddress">
+                  Email Address
                 </Label>
-                <AvField id="article-dateCreated" type="text" name="dateCreated" />
+                <AvField id="article-emailAddress" type="text" name="emailAddress" />
+              </AvGroup>
+              <AvGroup check>
+                <Label id="isDeletedLabel">
+                  <AvInput id="article-isDeleted" type="checkbox" className="form-check-input" name="isDeleted" />
+                  Is Deleted
+                </Label>
               </AvGroup>
               <AvGroup>
-                <Label id="articleStatusLabel" for="article-articleStatus">
-                  Article Status
-                </Label>
-                <AvField id="article-articleStatus" type="text" name="articleStatus" />
-              </AvGroup>
-              <AvGroup>
-                <Label id="labelLabel" for="article-label">
-                  Label
-                </Label>
-                <AvField id="article-label" type="text" name="label" />
+                <Label for="article-labelId">Label Id</Label>
+                <AvInput id="article-labelId" type="select" className="form-control" name="labelIdId">
+                  <option value="" key="0" />
+                  {labels
+                    ? labels.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.id}
+                        </option>
+                      ))
+                    : null}
+                </AvInput>
               </AvGroup>
               <Button tag={Link} id="cancel-save" to="/article" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
@@ -120,6 +132,7 @@ export const ArticleUpdate = (props: IArticleUpdateProps) => {
 };
 
 const mapStateToProps = (storeState: IRootState) => ({
+  labels: storeState.label.entities,
   articleEntity: storeState.article.entity,
   loading: storeState.article.loading,
   updating: storeState.article.updating,
@@ -127,6 +140,7 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
+  getLabels,
   getEntity,
   updateEntity,
   createEntity,

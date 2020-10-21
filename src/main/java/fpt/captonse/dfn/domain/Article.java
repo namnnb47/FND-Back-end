@@ -1,9 +1,11 @@
 package fpt.captonse.dfn.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * A Article.
@@ -18,20 +20,21 @@ public class Article implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "news_content")
+    private String newsContent;
 
-    @Column(name = "text")
-    private String text;
+    @Column(name = "date_detected")
+    private LocalDate dateDetected;
 
-    @Column(name = "date_created")
-    private String dateCreated;
+    @Column(name = "email_address")
+    private String emailAddress;
 
-    @Column(name = "article_status")
-    private String articleStatus;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
-    @Column(name = "label")
-    private String label;
+    @ManyToOne
+    @JsonIgnoreProperties(value = "ids", allowSetters = true)
+    private Label labelId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -42,69 +45,69 @@ public class Article implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getNewsContent() {
+        return newsContent;
     }
 
-    public Article title(String title) {
-        this.title = title;
+    public Article newsContent(String newsContent) {
+        this.newsContent = newsContent;
         return this;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setNewsContent(String newsContent) {
+        this.newsContent = newsContent;
     }
 
-    public String getText() {
-        return text;
+    public LocalDate getDateDetected() {
+        return dateDetected;
     }
 
-    public Article text(String text) {
-        this.text = text;
+    public Article dateDetected(LocalDate dateDetected) {
+        this.dateDetected = dateDetected;
         return this;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDateDetected(LocalDate dateDetected) {
+        this.dateDetected = dateDetected;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public Article dateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public Article emailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
         return this;
     }
 
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
-    public String getArticleStatus() {
-        return articleStatus;
+    public Boolean isIsDeleted() {
+        return isDeleted;
     }
 
-    public Article articleStatus(String articleStatus) {
-        this.articleStatus = articleStatus;
+    public Article isDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
         return this;
     }
 
-    public void setArticleStatus(String articleStatus) {
-        this.articleStatus = articleStatus;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public String getLabel() {
-        return label;
+    public Label getLabelId() {
+        return labelId;
     }
 
-    public Article label(String label) {
-        this.label = label;
+    public Article labelId(Label label) {
+        this.labelId = label;
         return this;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setLabelId(Label label) {
+        this.labelId = label;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -129,11 +132,10 @@ public class Article implements Serializable {
     public String toString() {
         return "Article{" +
             "id=" + getId() +
-            ", title='" + getTitle() + "'" +
-            ", text='" + getText() + "'" +
-            ", dateCreated='" + getDateCreated() + "'" +
-            ", articleStatus='" + getArticleStatus() + "'" +
-            ", label='" + getLabel() + "'" +
+            ", newsContent='" + getNewsContent() + "'" +
+            ", dateDetected='" + getDateDetected() + "'" +
+            ", emailAddress='" + getEmailAddress() + "'" +
+            ", isDeleted='" + isIsDeleted() + "'" +
             "}";
     }
 }

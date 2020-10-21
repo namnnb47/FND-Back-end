@@ -17,6 +17,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,20 +34,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class ArticleResourceIT {
 
-    private static final String DEFAULT_TITLE = "AAAAAAAAAA";
-    private static final String UPDATED_TITLE = "BBBBBBBBBB";
+    private static final String DEFAULT_NEWS_CONTENT = "AAAAAAAAAA";
+    private static final String UPDATED_NEWS_CONTENT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_TEXT = "AAAAAAAAAA";
-    private static final String UPDATED_TEXT = "BBBBBBBBBB";
+    private static final LocalDate DEFAULT_DATE_DETECTED = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATE_DETECTED = LocalDate.now(ZoneId.systemDefault());
 
-    private static final String DEFAULT_DATE_CREATED = "AAAAAAAAAA";
-    private static final String UPDATED_DATE_CREATED = "BBBBBBBBBB";
+    private static final String DEFAULT_EMAIL_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL_ADDRESS = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ARTICLE_STATUS = "AAAAAAAAAA";
-    private static final String UPDATED_ARTICLE_STATUS = "BBBBBBBBBB";
-
-    private static final String DEFAULT_LABEL = "AAAAAAAAAA";
-    private static final String UPDATED_LABEL = "BBBBBBBBBB";
+    private static final Boolean DEFAULT_IS_DELETED = false;
+    private static final Boolean UPDATED_IS_DELETED = true;
 
     @Autowired
     private ArticleRepository articleRepository;
@@ -72,11 +71,10 @@ public class ArticleResourceIT {
      */
     public static Article createEntity(EntityManager em) {
         Article article = new Article()
-            .title(DEFAULT_TITLE)
-            .text(DEFAULT_TEXT)
-            .dateCreated(DEFAULT_DATE_CREATED)
-            .articleStatus(DEFAULT_ARTICLE_STATUS)
-            .label(DEFAULT_LABEL);
+            .newsContent(DEFAULT_NEWS_CONTENT)
+            .dateDetected(DEFAULT_DATE_DETECTED)
+            .emailAddress(DEFAULT_EMAIL_ADDRESS)
+            .isDeleted(DEFAULT_IS_DELETED);
         return article;
     }
     /**
@@ -87,11 +85,10 @@ public class ArticleResourceIT {
      */
     public static Article createUpdatedEntity(EntityManager em) {
         Article article = new Article()
-            .title(UPDATED_TITLE)
-            .text(UPDATED_TEXT)
-            .dateCreated(UPDATED_DATE_CREATED)
-            .articleStatus(UPDATED_ARTICLE_STATUS)
-            .label(UPDATED_LABEL);
+            .newsContent(UPDATED_NEWS_CONTENT)
+            .dateDetected(UPDATED_DATE_DETECTED)
+            .emailAddress(UPDATED_EMAIL_ADDRESS)
+            .isDeleted(UPDATED_IS_DELETED);
         return article;
     }
 
@@ -115,11 +112,10 @@ public class ArticleResourceIT {
         List<Article> articleList = articleRepository.findAll();
         assertThat(articleList).hasSize(databaseSizeBeforeCreate + 1);
         Article testArticle = articleList.get(articleList.size() - 1);
-        assertThat(testArticle.getTitle()).isEqualTo(DEFAULT_TITLE);
-        assertThat(testArticle.getText()).isEqualTo(DEFAULT_TEXT);
-        assertThat(testArticle.getDateCreated()).isEqualTo(DEFAULT_DATE_CREATED);
-        assertThat(testArticle.getArticleStatus()).isEqualTo(DEFAULT_ARTICLE_STATUS);
-        assertThat(testArticle.getLabel()).isEqualTo(DEFAULT_LABEL);
+        assertThat(testArticle.getNewsContent()).isEqualTo(DEFAULT_NEWS_CONTENT);
+        assertThat(testArticle.getDateDetected()).isEqualTo(DEFAULT_DATE_DETECTED);
+        assertThat(testArticle.getEmailAddress()).isEqualTo(DEFAULT_EMAIL_ADDRESS);
+        assertThat(testArticle.isIsDeleted()).isEqualTo(DEFAULT_IS_DELETED);
     }
 
     @Test
@@ -154,11 +150,10 @@ public class ArticleResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(article.getId().intValue())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
-            .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT)))
-            .andExpect(jsonPath("$.[*].dateCreated").value(hasItem(DEFAULT_DATE_CREATED)))
-            .andExpect(jsonPath("$.[*].articleStatus").value(hasItem(DEFAULT_ARTICLE_STATUS)))
-            .andExpect(jsonPath("$.[*].label").value(hasItem(DEFAULT_LABEL)));
+            .andExpect(jsonPath("$.[*].newsContent").value(hasItem(DEFAULT_NEWS_CONTENT)))
+            .andExpect(jsonPath("$.[*].dateDetected").value(hasItem(DEFAULT_DATE_DETECTED.toString())))
+            .andExpect(jsonPath("$.[*].emailAddress").value(hasItem(DEFAULT_EMAIL_ADDRESS)))
+            .andExpect(jsonPath("$.[*].isDeleted").value(hasItem(DEFAULT_IS_DELETED.booleanValue())));
     }
     
     @Test
@@ -172,11 +167,10 @@ public class ArticleResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(article.getId().intValue()))
-            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
-            .andExpect(jsonPath("$.text").value(DEFAULT_TEXT))
-            .andExpect(jsonPath("$.dateCreated").value(DEFAULT_DATE_CREATED))
-            .andExpect(jsonPath("$.articleStatus").value(DEFAULT_ARTICLE_STATUS))
-            .andExpect(jsonPath("$.label").value(DEFAULT_LABEL));
+            .andExpect(jsonPath("$.newsContent").value(DEFAULT_NEWS_CONTENT))
+            .andExpect(jsonPath("$.dateDetected").value(DEFAULT_DATE_DETECTED.toString()))
+            .andExpect(jsonPath("$.emailAddress").value(DEFAULT_EMAIL_ADDRESS))
+            .andExpect(jsonPath("$.isDeleted").value(DEFAULT_IS_DELETED.booleanValue()));
     }
     @Test
     @Transactional
@@ -199,11 +193,10 @@ public class ArticleResourceIT {
         // Disconnect from session so that the updates on updatedArticle are not directly saved in db
         em.detach(updatedArticle);
         updatedArticle
-            .title(UPDATED_TITLE)
-            .text(UPDATED_TEXT)
-            .dateCreated(UPDATED_DATE_CREATED)
-            .articleStatus(UPDATED_ARTICLE_STATUS)
-            .label(UPDATED_LABEL);
+            .newsContent(UPDATED_NEWS_CONTENT)
+            .dateDetected(UPDATED_DATE_DETECTED)
+            .emailAddress(UPDATED_EMAIL_ADDRESS)
+            .isDeleted(UPDATED_IS_DELETED);
         ArticleDTO articleDTO = articleMapper.toDto(updatedArticle);
 
         restArticleMockMvc.perform(put("/api/articles")
@@ -215,11 +208,10 @@ public class ArticleResourceIT {
         List<Article> articleList = articleRepository.findAll();
         assertThat(articleList).hasSize(databaseSizeBeforeUpdate);
         Article testArticle = articleList.get(articleList.size() - 1);
-        assertThat(testArticle.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testArticle.getText()).isEqualTo(UPDATED_TEXT);
-        assertThat(testArticle.getDateCreated()).isEqualTo(UPDATED_DATE_CREATED);
-        assertThat(testArticle.getArticleStatus()).isEqualTo(UPDATED_ARTICLE_STATUS);
-        assertThat(testArticle.getLabel()).isEqualTo(UPDATED_LABEL);
+        assertThat(testArticle.getNewsContent()).isEqualTo(UPDATED_NEWS_CONTENT);
+        assertThat(testArticle.getDateDetected()).isEqualTo(UPDATED_DATE_DETECTED);
+        assertThat(testArticle.getEmailAddress()).isEqualTo(UPDATED_EMAIL_ADDRESS);
+        assertThat(testArticle.isIsDeleted()).isEqualTo(UPDATED_IS_DELETED);
     }
 
     @Test

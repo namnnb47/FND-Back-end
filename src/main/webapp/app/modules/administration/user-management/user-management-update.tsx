@@ -150,7 +150,7 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                   <AvInput type="checkbox" name="activated" value={user.activated} checked={user.activated} disabled={!user.id} /> Activated
                 </Label>
               </AvGroup>
-              <AvGroup>
+              {/* <AvGroup>
                 <Label for="authorities">Profiles</Label>
                 <AvInput type="select" className="form-control" name="authorities" value={user.authorities} multiple>
                   {roles.map(role => (
@@ -159,7 +159,7 @@ export const UserManagementUpdate = (props: IUserManagementUpdateProps) => {
                     </option>
                   ))}
                 </AvInput>
-              </AvGroup>
+              </AvGroup> */}
               <Button tag={Link} to="/admin/user-management" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

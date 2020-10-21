@@ -1,10 +1,14 @@
+import { Moment } from 'moment';
+
 export interface IArticle {
   id?: number;
-  title?: string;
-  text?: string;
-  dateCreated?: string;
-  articleStatus?: string;
-  label?: string;
+  newsContent?: string;
+  dateDetected?: string;
+  emailAddress?: string;
+  isDeleted?: boolean;
+  labelIdId?: number;
 }
 
-export const defaultValue: Readonly<IArticle> = {};
+export const defaultValue: Readonly<IArticle> = {
+  isDeleted: false,
+};

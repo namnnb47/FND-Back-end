@@ -8,6 +8,8 @@ import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { savePassword, reset } from './password.reducer';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IUserPasswordProps extends StateProps, DispatchProps {}
 
@@ -80,6 +82,10 @@ export const PasswordPage = (props: IUserPasswordProps) => {
                 },
               }}
             />
+            <Button tag={Link} to="/article" replace color="info">
+              <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
+            </Button>
+            &nbsp;
             <Button color="success" type="submit">
               Save
             </Button>

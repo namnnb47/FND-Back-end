@@ -1,5 +1,6 @@
 package fpt.captonse.dfn.service.dto;
 
+import java.time.LocalDate;
 import java.io.Serializable;
 
 /**
@@ -9,16 +10,16 @@ public class ArticleDTO implements Serializable {
     
     private Long id;
 
-    private String title;
+    private String newsContent;
 
-    private String text;
+    private LocalDate dateDetected;
 
-    private String dateCreated;
+    private String emailAddress;
 
-    private String articleStatus;
+    private Boolean isDeleted;
 
-    private String label;
 
+    private Long labelIdId;
     
     public Long getId() {
         return id;
@@ -28,44 +29,44 @@ public class ArticleDTO implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getNewsContent() {
+        return newsContent;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setNewsContent(String newsContent) {
+        this.newsContent = newsContent;
     }
 
-    public String getText() {
-        return text;
+    public LocalDate getDateDetected() {
+        return dateDetected;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDateDetected(LocalDate dateDetected) {
+        this.dateDetected = dateDetected;
     }
 
-    public String getDateCreated() {
-        return dateCreated;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
-    public String getArticleStatus() {
-        return articleStatus;
+    public Boolean isIsDeleted() {
+        return isDeleted;
     }
 
-    public void setArticleStatus(String articleStatus) {
-        this.articleStatus = articleStatus;
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public String getLabel() {
-        return label;
+    public Long getLabelIdId() {
+        return labelIdId;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setLabelIdId(Long labelId) {
+        this.labelIdId = labelId;
     }
 
     @Override
@@ -90,11 +91,11 @@ public class ArticleDTO implements Serializable {
     public String toString() {
         return "ArticleDTO{" +
             "id=" + getId() +
-            ", title='" + getTitle() + "'" +
-            ", text='" + getText() + "'" +
-            ", dateCreated='" + getDateCreated() + "'" +
-            ", articleStatus='" + getArticleStatus() + "'" +
-            ", label='" + getLabel() + "'" +
+            ", newsContent='" + getNewsContent() + "'" +
+            ", dateDetected='" + getDateDetected() + "'" +
+            ", emailAddress='" + getEmailAddress() + "'" +
+            ", isDeleted='" + isIsDeleted() + "'" +
+            ", labelIdId=" + getLabelIdId() +
             "}";
     }
 }

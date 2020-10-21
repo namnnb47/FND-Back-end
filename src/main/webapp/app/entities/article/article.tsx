@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
-import { ICrudGetAllAction, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { ICrudGetAllAction, TextFormat, getSortState, IPaginationBaseState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -15,6 +15,7 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 export interface IArticleProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Article = (props: IArticleProps) => {
+  const dispatch = useDispatch();
   const [paginationState, setPaginationState] = useState(
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
   );
@@ -69,10 +70,10 @@ export const Article = (props: IArticleProps) => {
     <div>
       <h2 id="article-heading">
         Articles
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+        {/* <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
           <FontAwesomeIcon icon="plus" />
           &nbsp; Create new Article
-        </Link>
+        </Link> */}
       </h2>
       <div className="table-responsive">
         {articleList && articleList.length > 0 ? (
@@ -82,20 +83,20 @@ export const Article = (props: IArticleProps) => {
                 <th className="hand" onClick={sort('id')}>
                   ID <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('title')}>
-                  Title <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('newsContent')}>
+                  News Content <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('text')}>
-                  Text <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('dateDetected')}>
+                  Date Detected <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('dateCreated')}>
-                  Date Created <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('emailAddress')}>
+                  Email Address <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('articleStatus')}>
-                  Article Status <FontAwesomeIcon icon="sort" />
+                <th className="hand" onClick={sort('isDeleted')}>
+                  Is Deleted <FontAwesomeIcon icon="sort" />
                 </th>
-                <th className="hand" onClick={sort('label')}>
-                  Label <FontAwesomeIcon icon="sort" />
+                <th>
+                  Label Id <FontAwesomeIcon icon="sort" />
                 </th>
                 <th />
               </tr>
@@ -108,32 +109,34 @@ export const Article = (props: IArticleProps) => {
                       {article.id}
                     </Button>
                   </td>
-                  <td>{article.title}</td>
-                  <td>{article.text}</td>
-                  <td>{article.dateCreated}</td>
-                  <td>{article.articleStatus}</td>
-                  <td>{article.label}</td>
+                  <td>{article.newsContent}</td>
+                  <td>
+                    {article.dateDetected ? <TextFormat type="date" value={article.dateDetected} format={APP_LOCAL_DATE_FORMAT} /> : null}
+                  </td>
+                  <td>{article.emailAddress}</td>
+                  <td>{article.isDeleted ? 'true' : 'false'}</td>
+                  <td>{article.labelIdId ? <Link to={`label/${article.labelIdId}`}>{article.labelIdId}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${article.id}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
                       </Button>
-                      <Button
+                      {/* <Button
                         tag={Link}
                         to={`${match.url}/${article.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
                         color="primary"
                         size="sm"
                       >
                         <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
-                      </Button>
-                      <Button
+                      </Button> */}
+                      {/* <Button
                         tag={Link}
                         to={`${match.url}/${article.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
                         color="danger"
                         size="sm"
                       >
                         <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
-                      </Button>
+                      </Button> */}
                     </div>
                   </td>
                 </tr>

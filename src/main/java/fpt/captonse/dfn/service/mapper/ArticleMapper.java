@@ -9,10 +9,14 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Article} and its DTO {@link ArticleDTO}.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {LabelMapper.class})
 public interface ArticleMapper extends EntityMapper<ArticleDTO, Article> {
 
+    @Mapping(source = "labelId.id", target = "labelIdId")
+    ArticleDTO toDto(Article article);
 
+    @Mapping(source = "labelIdId", target = "labelId")
+    Article toEntity(ArticleDTO articleDTO);
 
     default Article fromId(Long id) {
         if (id == null) {
